@@ -1,24 +1,52 @@
-function Biodata(props) {
-    return <span>umur {props.umur}</span>;
-}
-function Panggilnama(props) {
+import { Component } from "react";
+
+//belajar state
+
+class Timer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      waktu: props.start,
+    };
+  }
+  componentDidMount() {
+    this.interval = setInterval(() => this.increase(), 1000);
+  }
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+  increase() {
+    this.setState((state, props) => ({
+      waktu: parseInt(state.waktu) + 1,
+    }));
+  }
+  render() {
     return (
-        <h1>
-            hallo juga {props.nama}, sebagai seorang {props.profesi},{" "}
-            <Biodata umur={props.umur} />
-        </h1>
+      <div>
+        <h1>{this.state.waktu} detik</h1>
+        {/* <h1>jsksjfhks</h1> */}
+      </div>
     );
+  }
 }
-function App() {
+
+class Tulis extends Component {
+  render() {
+    return <h1>test</h1>;
+  }
+}
+class App extends Component {
+  render() {
     return (
-        <div className="App">
-            <header className="App-header">
-                <h1> hello world</h1>
-                <Panggilnama nama="auziqni" profesi="programmer" umur="23" />
-                <Panggilnama nama="ziqni" profesi="guru" umur="23" />
-            </header>
-        </div>
+      <div className="App">
+        <header className="App-header">
+          {/* <Tulis /> */}
+          <Timer start="0" />
+          <Timer start="10" />
+        </header>
+      </div>
     );
+  }
 }
 
 export default App;
