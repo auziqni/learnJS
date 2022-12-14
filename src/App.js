@@ -1,66 +1,62 @@
 import { Component } from "react";
 
-//belajar event handle
+// form and list
 
-class Toggle extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { isToggleOn: true };
-
-    // This binding is necessary to make `this` work in the callback
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick() {
-    this.setState((prevState) => ({
-      isToggleOn: !prevState.isToggleOn,
-    }));
-  }
-
-  render() {
-    return (
-      <button onClick={this.handleClick}>
-        {this.state.isToggleOn ? "ON" : "OFF"}
-      </button>
-    );
-  }
-}
-
-function Form() {
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log("You clicked submit.");
-  }
-
+function ValueList(props) {
   return (
-    <form onSubmit={handleSubmit}>
-      <button type="submit">Submit</button>
-    </form>
+    <ul>
+      {props.item.map((item, index) => (
+        <li key={index}>{item}</li>
+      ))}
+    </ul>
   );
 }
-class LoggingButton extends Component {
-  handleClick() {
-    console.log("this is:", this);
+class NameForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { value: "", listvalue: [] };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  render() {
-    // This syntax ensures `this` is bound within handleClick
-    return <button onClick={() => this.handleClick()}>Click me</button>;
+  handleChange(event) {
+    this.setState({ value: event.target.value });
   }
-}
 
-class App extends Component {
+  handleSubmit(event) {
+    // alert("A name was submitted: " + this.state.value);
+    event.preventDefault();
+    this.setState({
+      listvalue: [...this.state.listvalue, this.state.value],
+      value: "",
+    });
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <Toggle />
-          <Form />
-          <LoggingButton />
-        </header>
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            {/* Name: */}
+            <input
+              type="text"
+              value={this.state.value}
+              onChange={this.handleChange}
+            />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+        <ValueList item={this.state.listvalue} />
       </div>
     );
   }
 }
 
-export default App;
+class App extends Component {
+  render() {
+    return <div>{/* <form onSubmit={} */}</div>;
+  }
+}
+
+export default NameForm;
